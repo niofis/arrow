@@ -2,14 +2,39 @@
 #ifndef ARROW
 #define ARROW
 
-#define arr_ps float
+#include <stdint.h>
+#include "almalloc.h"
 
-arr_ps* arr_ps_new(int length);
-void arr_ps_del(arr_ps* arr);
+struct arr_desc
+{
+  uint32_t length;
+  uint32_t pad[3];
+};
+
+float* arr_ps_new(int length)
+{
+  void* arr;
+  struct arr_desc* desc;
+
+  arr = aligned_malloc(16, sizeof(struct arr_desc) + sizeof(float)*length);
+
+  desc = arr;
+  desc->length = length;
+
+  return arr;
+}
+
+void arr_ps_del(void* arr)
+{
+  void* ptr = arr - sizeof(struct arr_desc);
+  
+  aligned_free(ptr);
+}
 
 /***Arithmetic operations***/
-void arr_ps_add(arr_ps* dest, arr_ps* arr1, arr_ps* arr2);
-void arr_ps_sub(arr_ps* dest, arr_ps* arr1, arr_ps* arr2);
-void arr_ps_mul(arr_ps* dest, arr_ps* arr1, arr_ps* arr2);
+void arr_ps_add(float* dest, float* arr1, float* arr2);
+void arr_ps_sub(float* dest, float* arr1, float* arr2);
+void arr_ps_mul(float* dest, float* arr1, float* arr2);
+void arr_ps_div(float* dest, float* arr1, float* arr2);
 
 #endif
