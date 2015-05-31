@@ -3,6 +3,7 @@
 #define ARROW
 
 #include <stdint.h>
+#include <math.h>
 #include "almalloc.h"
 
 struct arr_desc
@@ -20,21 +21,78 @@ float* arr_ps_new(int length)
 
   desc = arr;
   desc->length = length;
+  
+  arr += sizeof(struct arr_desc);
 
   return arr;
 }
 
 void arr_ps_del(void* arr)
 {
-  void* ptr = arr - sizeof(struct arr_desc);
-  
+  void* ptr = (struct arr_desc*)arr - 1;
+
   aligned_free(ptr);
 }
 
+struct arr_desc* arr_desc_get(void* arr)
+{
+  return (struct arr_desc*)arr - 1;
+}
+
 /***Arithmetic operations***/
-void arr_ps_add(float* dest, float* arr1, float* arr2);
-void arr_ps_sub(float* dest, float* arr1, float* arr2);
-void arr_ps_mul(float* dest, float* arr1, float* arr2);
-void arr_ps_div(float* dest, float* arr1, float* arr2);
+void arr_ps_add(float* dest, float* arr1, float* arr2)
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const int size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = arr1[i] + arr2[i];
+  }
+}
+
+void arr_ps_sub(float* dest, float* arr1, float* arr2)
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const int size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = arr1[i] - arr2[i];
+  } 
+}
+
+void arr_ps_mul(float* dest, float* arr1, float* arr2)
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const int size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = arr1[i] * arr2[i];
+  }
+}
+
+void arr_ps_div(float* dest, float* arr1, float* arr2)
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const int size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = arr1[i] / arr2[i];
+  }
+}
+
+void arr_ps_sqrt(float* dest, float* arr1)
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const int size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = sqrtf(arr1[i]);
+  }
+}
 
 #endif
