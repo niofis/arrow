@@ -5,12 +5,23 @@
 #include <stdint.h>
 #include <math.h>
 #include "almalloc.h"
+#include "threads.h"
 
 struct arr_desc
 {
   uint32_t length;
   uint32_t pad[3];
 };
+
+struct arr_params
+{
+  void* dest;
+  void* arr1;
+  void* arr2;
+  uint32_t length;
+  uint32_t offset;
+};
+  
 
 float* arr_ps_new(uint32_t length)
 {
@@ -44,12 +55,31 @@ void arr_ps_add(float* dest, float* arr1, float* arr2)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
   const uint32_t size = desc->length;
+  struct arr_params params;
+
+  params.dest = dest;
+  params.arr1 = arr1;
+  params.arr2 = arr2;
+  params.length = size;
 
   for(int i = 0; i < size; ++i)
   {
     dest[i] = arr1[i] + arr2[i];
   }
 }
+
+THREAD arr_ps_add_th(struct arr_params* params) 
+{
+  const struct arr_desc* desc = arr_desc_get(arr1);
+  const uint32_t size = desc->length;
+
+  for(int i = 0; i < size; ++i)
+  {
+    dest[i] = arr1[i] + arr2[i];
+  }
+}
+
+
 
 void arr_ps_sub(float* dest, float* arr1, float* arr2)
 {
