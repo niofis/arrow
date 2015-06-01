@@ -2,7 +2,7 @@ CC=gcc
 RM=rm -f
 CFLAGS=-Wall -std=c99 -O2 -I../src #$(shell root-config --cflags)
 LDFLAGS= #$(shell root-config --ldflags)
-LDLIBS=-lm  #-lSDL2main #-Wl,-framework,Cocoa#$(shell root-config --libs)
+LDLIBS=-lm #-fopenmp  #-lSDL2main #-Wl,-framework,Cocoa#$(shell root-config --libs)
 VPATH=../src
 SRCS=main.c
 OPATH=../obj

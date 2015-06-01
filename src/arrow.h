@@ -12,7 +12,7 @@ struct arr_desc
   uint32_t pad[3];
 };
 
-float* arr_ps_new(int length)
+float* arr_ps_new(uint32_t length)
 {
   void* arr;
   struct arr_desc* desc;
@@ -43,7 +43,7 @@ struct arr_desc* arr_desc_get(void* arr)
 void arr_ps_add(float* dest, float* arr1, float* arr2)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
-  const int size = desc->length;
+  const uint32_t size = desc->length;
 
   for(int i = 0; i < size; ++i)
   {
@@ -54,7 +54,7 @@ void arr_ps_add(float* dest, float* arr1, float* arr2)
 void arr_ps_sub(float* dest, float* arr1, float* arr2)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
-  const int size = desc->length;
+  const uint32_t size = desc->length;
 
   for(int i = 0; i < size; ++i)
   {
@@ -65,7 +65,7 @@ void arr_ps_sub(float* dest, float* arr1, float* arr2)
 void arr_ps_mul(float* dest, float* arr1, float* arr2)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
-  const int size = desc->length;
+  const uint32_t size = desc->length;
 
   for(int i = 0; i < size; ++i)
   {
@@ -76,7 +76,7 @@ void arr_ps_mul(float* dest, float* arr1, float* arr2)
 void arr_ps_div(float* dest, float* arr1, float* arr2)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
-  const int size = desc->length;
+  const uint32_t size = desc->length;
 
   for(int i = 0; i < size; ++i)
   {
@@ -87,7 +87,7 @@ void arr_ps_div(float* dest, float* arr1, float* arr2)
 void arr_ps_sqrt(float* dest, float* arr1)
 {
   const struct arr_desc* desc = arr_desc_get(arr1);
-  const int size = desc->length;
+  const uint32_t size = desc->length;
 
   for(int i = 0; i < size; ++i)
   {
