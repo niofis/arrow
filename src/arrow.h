@@ -25,7 +25,7 @@ struct arr_params
 
 float* arr_ps_new(uint32_t length)
 {
-  void* arr;
+  uint8_t* arr;
   struct arr_desc* desc;
 
   arr = aligned_malloc(16, sizeof(struct arr_desc) + sizeof(float)*length);
@@ -62,24 +62,22 @@ void arr_ps_add(float* dest, float* arr1, float* arr2)
   params.arr2 = arr2;
   params.length = size;
 
-  for(int i = 0; i < size; ++i)
-  {
-    dest[i] = arr1[i] + arr2[i];
-  }
+  arr_ps_add_th(&params);
 }
 
 THREAD arr_ps_add_th(struct arr_params* params) 
 {
-  const struct arr_desc* desc = arr_desc_get(arr1);
+  const struct arr_desc* desc = arr_desc_get(params->arr1);
   const uint32_t size = desc->length;
+  float* dest = params->dest;
+  const float* arr1 = params->arr1;
+  const float* arr2 = params->arr2;
 
   for(int i = 0; i < size; ++i)
   {
     dest[i] = arr1[i] + arr2[i];
   }
 }
-
-
 
 void arr_ps_sub(float* dest, float* arr1, float* arr2)
 {

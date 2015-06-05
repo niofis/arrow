@@ -5,15 +5,15 @@
 
 void* aligned_malloc(int aligment_bytes, long size)
 {
-  void* ptr;
-  void* aligned_ptr;
+  uint8_t* ptr;
+  uint8_t* aligned_ptr;
   int ptr_size;
 
   ptr_size = sizeof(uint64_t);
 
   ptr = malloc(aligment_bytes + size + ptr_size);
   aligned_ptr = ptr;
-  aligned_ptr += ptr_size;
+  aligned_ptr = aligned_ptr + ptr_size;
   aligned_ptr += (uint64_t)aligned_ptr % (uint64_t)aligment_bytes;
 
   *((uint64_t*)aligned_ptr - 1) = (uint64_t)ptr;
