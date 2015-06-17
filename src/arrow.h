@@ -29,12 +29,12 @@ float* arr_ps_new(uint32_t length)
 
   arr = aligned_malloc(16, sizeof(struct arr_desc) + sizeof(float)*length);
 
-  desc = arr;
+  desc = (struct arr_desc*)arr;
   desc->length = length;
   
   arr += sizeof(struct arr_desc);
 
-  return arr;
+  return (float*)arr;
 }
 
 void arr_ps_del(void* arr)
@@ -56,7 +56,7 @@ void arr_ps_add(float* dest, float* arr1, float* arr2)
 	const uint32_t size = desc->length;
 	int i = 0;
 
-	#pragma omp parallel for private(i)
+	#pragma omp parallel for private(i) //num_threads(8)
 	for (i = 0; i < size; ++i)
 	{
 		dest[i] = arr1[i] - arr2[i];
