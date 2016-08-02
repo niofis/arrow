@@ -134,11 +134,24 @@ void
 arrow_dot(arrow_t *dest, attow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
-//dot: x1*x2 + y1*y2 + z1*z2
+  
   for(uintptr_t idx = 0; idx < dest->length; ++idx) {
-    dest->x[idx] = a1->x[idx] * a2->x[idx]
-                  +a1->y[idx] * a2->y[idx];
-                  +a1->z[idx] * a2->z[idx];
+    dest->x[idx] =  a1->x[idx] * a2->x[idx]
+                  + a1->y[idx] * a2->y[idx]
+                  + a1->z[idx] * a2->z[idx];
+  }
+}
+
+void
+arrow_cross(arrow_t *dest, attow_t *a1, arrow_t *a2)
+{
+  assert(dest->length == a1->length && a1->length == a2->length);
+  
+  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+    float x = a1->y[idx] * a2->z[idx] - a1->z[idx] * a2->y[idx];
+    float y = a1->z[idx] * a2->x[idx] - a1->x[idx] * a2->z[idx];
+    float z = a1->x[idx] * a2->y[idx] - a1->y[idx] * a2->x[idx];
+    arrow_set_xyz(dest, idx, x, y, z);
   }
 }
 

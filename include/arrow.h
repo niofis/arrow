@@ -46,3 +46,6 @@ void
 
 void
   arrow_dot(arrow_t *dest, attow_t *a1, arrow_t *a2);
+
+void
+  arrow_cross(arrow_t *dest, attow_t *a1, arrow_t *a2);
