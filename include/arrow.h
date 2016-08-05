@@ -6,31 +6,31 @@
 typedef struct _arrow_t arrow_t;
 
 arrow_t*
-  arrow_new(uintptr_t length);
+  arrow_new(size_t length);
 
 void
   arrow_delete(arrow_t **arrow);
 
 float
-  arrow_get_x(arrow_t *arrow, uintptr_t index);
+  arrow_get_x(arrow_t *arrow, size_t index);
 
 float
-  arrow_get_y(arrow_t *arrow, uintptr_t index);
+  arrow_get_y(arrow_t *arrow, size_t index);
 
 float
-  arrow_get_z(arrow_t *arrow, uintptr_t index);
+  arrow_get_z(arrow_t *arrow, size_t index);
 
 void
-  arrow_set_x(arrow_t *arrow, uintptr_t index, float value);
+  arrow_set_x(arrow_t *arrow, size_t index, float value);
 
 void
-  arrow_set_y(arrow_t *arrow, uintptr_t index, float value);
+  arrow_set_y(arrow_t *arrow, size_t index, float value);
 
 void
-  arrow_set_z(arrow_t *arrow, uintptr_t index, float value);
+  arrow_set_z(arrow_t *arrow, size_t index, float value);
 
 void
-  arrow_set_xyz(arrow_t *arrow, uintptr_t index, float x, float y, float z);
+  arrow_set_xyz(arrow_t *arrow, size_t index, float x, float y, float z);
 
 void
   arrow_add(arrow_t *dest, arrow_t *a1, arrow_t *a2);

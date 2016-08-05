@@ -4,16 +4,16 @@
 #include "arrow.h"
 
 struct _arrow_t {
-  uintptr_t length;
+  size_t length;
   float* x;
   float* y;
   float* z;
 }
 
 arrow_t*
-arrow_new(uintptr_t length)
+arrow_new(size_t length)
 {
-  uintptr_t c = length % 8;
+  size_t c = length % 8;
   c += length;
   arrow_t* arr = aligned_malloc(16, sizeof(arrow_t));
   arr->x = aligned_malloc(16, sizeof(float) * c);
@@ -37,43 +37,43 @@ arrow_delete(arrow_t **arrow)
 }
 
 float
-arrow_get_x(arrow_t *arrow, uintptr_t index)
+arrow_get_x(arrow_t *arrow, size_t index)
 {
   return arrow->x[index];
 }
 
 float
-arrow_get_y(arrow_t *arrow, uintptr_t index)
+arrow_get_y(arrow_t *arrow, size_t index)
 {
   return arrow->y[index];
 }
 
 float
-arrow_get_z(arrow_t *arrow, uintptr_t index)
+arrow_get_z(arrow_t *arrow, size_t index)
 {
   return arrow->z[index];
 }
 
 void
-arrow_set_x(arrow_t *arrow, uintptr_t index, float value)
+arrow_set_x(arrow_t *arrow, size_t index, float value)
 {
   arrow->x[index] = value;
 }
 
 void
-arrow_set_y(arrow_t *arrow, uintptr_t index, float value)
+arrow_set_y(arrow_t *arrow, size_t index, float value)
 {
   arrow->y[index] = value;
 }
 
 void
-arrow_set_z(arrow_t *arrow, uintptr_t index, float value)
+arrow_set_z(arrow_t *arrow, size_t index, float value)
 {
   arrow->z[index] = value;
 }
 
 void
-arrow_set_xyz(arrow_t *arrow, uintptr_t index, float x, float y, float z)
+arrow_set_xyz(arrow_t *arrow, size_t index, float x, float y, float z)
 {
   arrow->x[index] = x;
   arrow->y[index] = y;
@@ -85,7 +85,7 @@ arrow_add(arrow_t *dest, arrow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
 
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     dest->x[idx] = a1->x[idx] + a2->x[idx];
     dest->y[idx] = a1->y[idx] + a2->y[idx];
     dest->z[idx] = a1->z[idx] + a2->z[idx];
@@ -97,7 +97,7 @@ arrow_sub(arrow_t *dest, arrow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
 
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     dest->x[idx] = a1->x[idx] - a2->x[idx];
     dest->y[idx] = a1->y[idx] - a2->y[idx];
     dest->z[idx] = a1->z[idx] - a2->z[idx];
@@ -109,7 +109,7 @@ arrow_div(arrow_t *dest, arrow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
 
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     dest->x[idx] = a1->x[idx] / a2->x[idx];
     dest->y[idx] = a1->y[idx] / a2->y[idx];
     dest->z[idx] = a1->z[idx] / a2->z[idx];
@@ -122,7 +122,7 @@ arrow_mul(arrow_t *dest, arrow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
 
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     dest->x[idx] = a1->x[idx] * a2->x[idx];
     dest->y[idx] = a1->y[idx] * a2->y[idx];
     dest->z[idx] = a1->z[idx] * a2->z[idx];
@@ -135,7 +135,7 @@ arrow_dot(arrow_t *dest, attow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
   
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     dest->x[idx] =  a1->x[idx] * a2->x[idx]
                   + a1->y[idx] * a2->y[idx]
                   + a1->z[idx] * a2->z[idx];
@@ -147,7 +147,7 @@ arrow_cross(arrow_t *dest, attow_t *a1, arrow_t *a2)
 {
   assert(dest->length == a1->length && a1->length == a2->length);
   
-  for(uintptr_t idx = 0; idx < dest->length; ++idx) {
+  for(size_t idx = 0; idx < dest->length; ++idx) {
     float x = a1->y[idx] * a2->z[idx] - a1->z[idx] * a2->y[idx];
     float y = a1->z[idx] * a2->x[idx] - a1->x[idx] * a2->z[idx];
     float z = a1->x[idx] * a2->y[idx] - a1->y[idx] * a2->x[idx];
